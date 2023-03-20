@@ -13,43 +13,38 @@ S1 = [['00','01','10','11'],
       ['11','00','01','00'],
       ['10','01','00','11']]
 
-initial_p = [1,5,2,0,3,7,4,6]       # initial permutation
-inverse_p = [3,0,2,4,6,1,7,5]       # inverse permutation
-key_p     = [2,4,1,6,3,9,0,8,7,5]   # original key permutation
-subkey_p  = [0,1,5,2,6,3,7,4,9,8]   # permutation after removing k0 and k1 
-                                    # from the key
-sbox_p    = [1,3,2,0]               # permutation for the output of the s-boxes
+initial_p = [1,5,2,0,3,7,4,6]       
+inverse_p = [3,0,2,4,6,1,7,5]       
+key_p     = [2,4,1,6,3,9,0,8,7,5]   
+subkey_p  = [0,1,5,2,6,3,7,4,9,8]   
+                                    
+sbox_p    = [1,3,2,0]               
 
-# Permutates a list (state) according to another list (permutation). 
+
 def perm(state, permutation):
     return list(map(state.__getitem__,permutation))
 
-# Takes a list and expands it by and concatenating two of its permutations 
+ 
 def expand(bit_list):
     return perm(bit_list,[3,0,1,2]) + perm(bit_list,[1,2,3,0])
-    # b0 b1 b2 b3 -> b3 b0 b1 b2 b1 b2 b3 b0
 
-# Takes a four element list (state) and uses it to index an element from the
-# specified s-box (box)
+
+
 def sbox(state,box):
     row = int(state[0] + state[3], 2)
     col = int(state[1] + state[2], 2)
     val = box[row][col]
     return val
-
-# Takes a list (state) and cyclically shifts its elements to the right n times    
+   
 def shift_r(state, n):
     a = n % len(state)
     return state[-a:] + state[:-a]
-
-# Takes a list (state) and cyclically shifts its elements to the left n times    
+   
 def shift_l(state, n):
     a = n % len(state)
     return state[a:] + state[:a]
 
 
-# Takes in the sDES key in the form of a string and returns its two subkeys
-# in the form of lists of one character ('1's or '0's) strings
 def subkeys(key):
     lkey = []
     lkey[:0] = key
@@ -64,8 +59,6 @@ def subkeys(key):
     subkey2.pop(0)
     return subkey1,subkey2
 
-# Takes two lists (state and subkey) and applies the sDES feiestel function to
-# the state with the subkey
 def feistel(state,subkey):
     result = []
     s = []
@@ -89,8 +82,6 @@ def feistel(state,subkey):
 
     return xored4 + rh
 
-# Determines the sDES mode ('E'ncryption or 'D'ecryption), computes the subkeys
-# based on the key, and uses them to process the text according to the mode.
 def sdes(key,text,mode):
     if mode == 'E':
         sk1,sk2 = subkeys(key)
