@@ -1,6 +1,3 @@
-## @Autor: Manzanares Peña Jorge Luis
-## @Fecha: 17 de marzo de 2023
-## @Decripción: Implementación Simplified DES
 
 import fileinput
 
