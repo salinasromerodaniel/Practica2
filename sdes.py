@@ -111,5 +111,5 @@ def main():
     result = sdes(key, text, mode)
     print(result)
 
-if __name__ == "__main__":
+if __name__ == "__main__":#
     main()
